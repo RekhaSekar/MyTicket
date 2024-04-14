@@ -2,22 +2,17 @@ package com.ticket.myticket.service;
 
 import java.util.List;
 
+import com.ticket.myticket.dto.TicketDTO;
 import com.ticket.myticket.model.Ticket;
 
 public interface TicketService {
 
-	public Ticket bookTicket(Ticket ticket);
+	public Ticket assignTicket(TicketDTO ticketDTO);
 
-	public List<Ticket> getAllTickets(String source);
+	public List<TicketDTO> getAllTickets(String source, String email);
 
 	public String updateTicket(int ticketId, Ticket ticket);
 
 	public String deleteTicket(int ticketId);
-
-	public List<Ticket> bookmultipleTickets(List<Ticket> bookTicket);
-
-	public String updateMultipleTickets(List<Ticket> updateTicket);
-
-	public String deleteMultipleTickets(List<Integer> deleteTickets);
 
 }

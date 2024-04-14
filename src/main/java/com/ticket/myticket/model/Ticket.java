@@ -2,82 +2,121 @@ package com.ticket.myticket.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="MYTICKET")
+@Table(name = "TICKET")
 public class Ticket {
-	
+
 	@Id
-	@Column(name="ID")
-	private int ticketId;
-	@Column(name="SOURCE", nullable = false)
-	private String source;
-	@Column(name="DESTINATION",nullable = false)
-	private String desination;
-	@Column(name="JOURNEYDATE")
-	private String journeyDate;
-	@Column(name="COST")
-	private double cost;
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+
+	@Column(name = "title", nullable = false)
+	private String title;
+
+	@Column(name = "description", nullable = false)
+	private String description;
+
+	@Column(name = "category")
+	private String category;
+
+	@Column(name = "department")
+	private String department;
+
+	@Column(name = "priority")
+	private int priority;
+
+	@OneToOne
+	private Employee asignedTo;
+
+	@Column(name = "createdBy")
+	private String createdBy;
 
 	public Ticket() {
 
 	}
 
-	public Ticket(int ticketId, String source, String desination, String journeyDate, double cost) {
+	public Ticket(int id, String title, String description, String category, String department, int priority,
+			Employee asignedTo, String createdBy) {
 		super();
-		this.ticketId = ticketId;
-		this.source = source;
-		this.desination = desination;
-		this.journeyDate = journeyDate;
-		this.cost = cost;
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.category = category;
+		this.department = department;
+		this.priority = priority;
+		this.asignedTo = asignedTo;
+		this.createdBy = createdBy;
 	}
 
-	public int getTicketId() {
-		return ticketId;
+	public int getId() {
+		return id;
 	}
 
-	public void setTicketId(int ticketId) {
-		this.ticketId = ticketId;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public String getSource() {
-		return source;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setSource(String source) {
-		this.source = source;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
-	public String getDesination() {
-		return desination;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDesination(String desination) {
-		this.desination = desination;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public String getJourneyDate() {
-		return journeyDate;
+	public String getCategory() {
+		return category;
 	}
 
-	public void setJourneyDate(String journeyDate) {
-		this.journeyDate = journeyDate;
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
-	public double getCost() {
-		return cost;
+	public String getDepartment() {
+		return department;
 	}
 
-	public void setCost(double cost) {
-		this.cost = cost;
+	public void setDepartment(String department) {
+		this.department = department;
 	}
 
-	@Override
-	public String toString() {
-		return "Ticket [ticketId=" + ticketId + ", source=" + source + ", desination=" + desination + ", journeyDate="
-				+ journeyDate + ", cost=" + cost + "]";
+	public int getPriority() {
+		return priority;
+	}
+
+	public void setPriority(int priority) {
+		this.priority = priority;
+	}
+
+	public Employee getAsignedTo() {
+		return asignedTo;
+	}
+
+	public void setAsignedTo(Employee asignedTo) {
+		this.asignedTo = asignedTo;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
 	}
 
 }

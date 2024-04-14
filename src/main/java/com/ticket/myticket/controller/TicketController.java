@@ -4,63 +4,48 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ticket.myticket.dto.TicketDTO;
 import com.ticket.myticket.model.Ticket;
 import com.ticket.myticket.service.TicketService;
 
 @RestController
+@RequestMapping("/ticket")
 public class TicketController {
 
 	@Autowired
-//	@Qualifier("TicketServiceImpl")
 	TicketService TicketServiceSqlImpl;
 	
-//	@Autowired
-//	@Qualifier("TicketServiceImpl")
-//	TicketService ticketServiceMultiImpl;
-
-	@PostMapping("/ticket")
-	public Ticket bookTicket(@RequestBody Ticket ticket) {
-		return TicketServiceSqlImpl.bookTicket(ticket);
+	@PostMapping("/")
+	public ResponseEntity<Ticket> assignTicket(@RequestBody TicketDTO ticketDTO) {
+		return new ResponseEntity<>(TicketServiceSqlImpl.assignTicket(ticketDTO),HttpStatus.ACCEPTED);
 	}
 
-	@PostMapping("/multipletickets")
-	public List<Ticket> bookmultipleTickets(@RequestBody List<Ticket> bookTicket) {
-//		System.out.println(ticketServiceMultiImpl);
-		System.out.println(TicketServiceSqlImpl);
-		return TicketServiceSqlImpl.bookmultipleTickets(bookTicket);
+	@GetMapping("/")
+	public ResponseEntity<List<TicketDTO>> getAllTickets(@RequestParam(name = "source", required = false) String source,@RequestParam(name = "email", required = false) String email ) {
+		return new ResponseEntity<>(TicketServiceSqlImpl.getAllTickets(source, email), HttpStatus.OK);
 	}
 
-	@GetMapping("/ticket")
-	public List<Ticket> getAllTickets(@RequestParam(name = "source", required = false) String source) {
-		return TicketServiceSqlImpl.getAllTickets(source);
+	@PutMapping("/{ticketId}")
+	public ResponseEntity<String> updateTicket(@PathVariable("ticketId") int ticketId, @RequestBody Ticket ticket) {
+		return new ResponseEntity<>(TicketServiceSqlImpl.updateTicket(ticketId, ticket), HttpStatus.OK);
 	}
 
-	@PutMapping("/ticket/{ticketId}")
-	public String updateTicket(@PathVariable("ticketId") int ticketId, @RequestBody Ticket ticket) {
-		return TicketServiceSqlImpl.updateTicket(ticketId, ticket);
+	@DeleteMapping("/{ticketId}")
+	public ResponseEntity<String> deleteTicket(@PathVariable("ticketId") int ticketId) {
+		return new ResponseEntity<>(TicketServiceSqlImpl.deleteTicket(ticketId), HttpStatus.OK);
 	}
 
-	@PutMapping("/multipletickets")
-	public String updateMultipleTickets(@RequestBody List<Ticket> updateTicket) {
-		return TicketServiceSqlImpl.updateMultipleTickets(updateTicket);
-	}
-
-	@DeleteMapping("/ticket/{ticketId}")
-	public String deleteTicket(@PathVariable("ticketId") int ticketId) {
-		return TicketServiceSqlImpl.deleteTicket(ticketId);
-	}
-
-	@DeleteMapping("/multipletickets")
-	public String deleteMultipleTickets(@RequestBody List<Integer> deleteTickets) {
-		return TicketServiceSqlImpl.deleteMultipleTickets(deleteTickets);
-	}
 }
